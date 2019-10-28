@@ -41,43 +41,33 @@ window.addEventListener("DOMContentLoaded", function (e) {
             this.setCellState(3, 1, "live");
             this.setCellState(4, 4, "live");
             this.setCellState(2, 0, "live");
-
         };
         this.computeCellNextState = function (x, y) {
             let counter = 0;
-
             if (this.showDiv(x - 1, y - 1) !== undefined && this.showDiv(x - 1, y - 1).classList.contains("live")) {
                 counter++
             }
             if (this.showDiv(x, y - 1) !== undefined && this.showDiv(x, y - 1).classList.contains("live")) {
                 counter++
-
             }
             if (this.showDiv(x + 1, y - 1) !== undefined && this.showDiv(x + 1, y - 1).classList.contains("live")) {
                 counter++
-
             }
             if (this.showDiv(x - 1, y) !== undefined && this.showDiv(x - 1, y).classList.contains("live")) {
                 counter++
-
             }
             if (this.showDiv(x + 1, y ) !== undefined && this.showDiv(x + 1, y).classList.contains("live")) {
                 counter++
-
             }
             if (this.showDiv(x - 1, y + 1) !== undefined && this.showDiv(x - 1, y + 1).classList.contains("live")) {
                 counter++
-
             }
             if (this.showDiv(x , y + 1) !== undefined && this.showDiv(x, y + 1).classList.contains("live")) {
                 counter++
-
             }
             if (this.showDiv(x + 1, y + 1) !== undefined && this.showDiv(x + 1, y + 1).classList.contains("live")) {
                 counter++
-
             }
-
             if (this.showDiv(x, y).classList.contains("live")) {
                 if (counter < 2) {
                     return 0
@@ -91,10 +81,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
             if (!this.showDiv(x, y).classList.contains("live") && counter === 3) {
                 return 1
             } else return 0
-
-
         };
-
         this.computeNextGeneration = function () {
             this.arrayNewGeneration = [];
             for (let i=0; i<this.height; i++) {
@@ -103,11 +90,9 @@ window.addEventListener("DOMContentLoaded", function (e) {
             }
             }
             return this.arrayNewGeneration
-
         };
-        // let that = this;
         this.printNextGeneration = function () {
-            for (let i=0; i<400; i++) {
+            for (let i=0; i<this.width*this.height; i++) {
                 if(this.arrayNewGeneration[i] === 1) {
                     this.cells[i].classList.add("live")
                 }
@@ -115,64 +100,31 @@ window.addEventListener("DOMContentLoaded", function (e) {
                     this.cells[i].classList.remove("live")
                 }
             }
-
-
-
         };
-
     }
+    let game;
+    let getBoardWidth= document.querySelector(".get-board-width").value;
+    let getBoardHeight= document.querySelector(".get-board-height").value;
 
+    document.getElementById("play").addEventListener("click", function (e) {
+        if(typeof game === "undefined") {
+            game = new GameOfLife(getBoardWidth, getBoardHeight)
+            game.createBoard();
+            // game.showDiv(10,10);
+            game.firstGlider();
+        }
+        e.target.disabled = true;
+        const time = setInterval(function () {
+            game.computeNextGeneration();
+            game.printNextGeneration()
+        }, 1000)
+        console.log(typeof time)
+        document.getElementById("pause").addEventListener("click", function () {
+            clearInterval(time);
+            e.target.disabled = false;
+        })
+    });
+    document.querySelector(".get-board-width").addEventListener("change", function (e) {
 
-
-    let game = new GameOfLife(20,20);
-
-    game.createBoard();
-    game.showDiv(10,10);
-    game.firstGlider();
-
-document.getElementById("play").addEventListener("click", function (e) {
-    const time = setInterval(function () {
-        game.computeNextGeneration();
-        game.printNextGeneration()
-    }, 1000)
-    document.getElementById("pause").addEventListener("click", function () {
-        clearInterval(time)
     })
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });
