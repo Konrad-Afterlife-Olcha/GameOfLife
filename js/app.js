@@ -103,11 +103,12 @@ window.addEventListener("DOMContentLoaded", function (e) {
         };
     }
     let game;
-    let getBoardWidth= document.querySelector(".get-board-width").value;
-    let getBoardHeight= document.querySelector(".get-board-height").value;
+
 
     document.getElementById("play").addEventListener("click", function (e) {
         if(typeof game === "undefined") {
+            let getBoardWidth= document.querySelector(".get-board-width").value;
+            let getBoardHeight= document.querySelector(".get-board-height").value;
             game = new GameOfLife(getBoardWidth, getBoardHeight)
             game.createBoard();
             // game.showDiv(10,10);
